@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Redesign Concept</title>
+  <style>
+    :root {
+      --bg-main: #f0f2f5;
+      --bg-card: #ffffff;
+      --text-main: #1a1a1a;
+      --text-muted: #606060;
+      --border-color: #e5e5e5;
+      --yt-red: #ff0000;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Container replicating the glass/morphic card design in the image */
+    .app-container {
+      width: 100%;
+      max-width: 1200px;
+      height: 850px;
+      background: var(--bg-card);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ==========================================
+       SIDEBAR SECTION
+       ========================================== */
+    aside {
+      width: 240px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: bold;
+      font-size: 18px;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 20px;
+      background-color: var(--yt-red);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 11px;
+      border-width: 5px 0 5px 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent white;
+    }
+
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #f5f5f5;
+      color: var(--text-main);
+    }
+
+    .nav-item .icon {
+      width: 18px;
+      height: 18px;
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    .avatar-icon {
+      border-radius: 50%;
+    }
+
+    /* ==========================================
+       MAIN CONTENT SECTION
+       ========================================== */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fafafa;
+    }
+
+    /* Top Navigation Header */
+    header {
+      height: 70px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .search-bar {
+      width: 400px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px 16px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 20px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-icon {
+      width: 20px;
+      height: 20px;
+      background: #606060;
+      border-radius: 4px;
+    }
+
+    .user-profile {
+      width: 32px;
+      height: 32px;
+      background: #1a1a1a;
+      border-radius: 50%;
+    }
+
+    /* Content Area Scroll Container */
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Horizontal Category Tags */
+    .categories-tags {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tag {
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+    }
+
+    .tag.active {
+      background: var(--text-main);
+      color: var(--bg-card);
+      border-color: var(--text-main);
+    }
+
+    /* Prominent Hero Banner */
+    .hero-banner {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(90deg, #141e30, #243b55);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      color: white;
+    }
+
+    .hero-text h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .hero-text p {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    /* Video Grid System */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .video-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #e0e0e0;
+      position: relative;
+    }
+
+    .thumbnail-1 { background: linear-gradient(135deg, #700870 0%, #e0c3fc 100%); }
+    .thumbnail-2 { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+    .thumbnail-3 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+    .thumbnail-4 { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+    .thumbnail-5 { background: linear-gradient(135deg, #0f2027 0%, #203a43 100%); }
+    .thumbnail-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+    .thumbnail-7 { background: linear-gradient(135deg, #243b55 0%, #141e30 100%); }
+    .thumbnail-8 { background: linear-gradient(135deg, #ea00d9 0%, #711c91 100%); }
+
+    .video-info {
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .channel-avatar {
+      width: 32px;
+      height: 32px;
+      background: #ccc;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .video-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .video-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .channel-name {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .video-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside>
+      <div class="logo-container">
+        <div class="logo-icon"></div>
+        <span>YouTube</span>
+      </div>
+
+      <div class="nav-group">
+        <a href="#" class="nav-item active"><div class="icon"></div>Home</a>
+        <a href="#" class="nav-item"><div class="icon"></div>History</a>
+        <a href="#" class="nav-item"><div class="icon"></div>Your Videos</a>
+        <a href="#" class="nav-item"><div class="icon"></div>Watch Later</a>
+        <a href="#" class="nav-item"><div class="icon"></div>Liked Videos</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-title">Subscriptions</div>
+        <a href="#" class="nav-item"><div class="icon avatar-icon"></div>Arisandika Channel</a>
+        <a href="#" class="nav-item"><div class="icon avatar-icon"></div>Theodorus Richard</a>
+        <a href="#" class="nav-item"><div class="icon avatar-icon"></div>Gagah Prima S.</a>
+        <a href="#" class="nav-item"><div class="icon avatar-icon"></div>Muhammad Miftah...</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-title">More From YouTube</div>
+        <a href="#" class="nav-item"><div class="icon"></div>YouTube Premium</a>
+        <a href="#" class="nav-item"><div class="icon"></div>Gaming</a>
+        <a href="#" class="nav-item"><div class="icon"></div>Live</a>
+      </div>
+    </aside>
+
+    <!-- MAIN INTERFACE BODY -->
+    <main>
+      <!-- HEADER SEARCH & PROFILE -->
+      <header>
+        <div class="search-bar">
+          <input type="text" placeholder="Search...">
+        </div>
+        <div class="header-actions">
+          <div class="header-icon"></div>
+          <div class="header-icon"></div>
+          <div class="user-profile"></div>
+        </div>
+      </header>
+
+      <!-- SCROLLABLE FEED CONTENT -->
+      <div class="content-scroll">
+        
+        <!-- TAG FILTERS -->
+        <div class="categories-tags">
+          <div class="tag active">All</div>
+          <div class="tag">Stronghold Kingdoms</div>
+          <div class="tag">Music</div>
+          <div class="tag">Mapping</div>
+          <div class="tag">Mixes</div>
+          <div class="tag">JavaScript</div>
+          <div class="tag">Live</div>
+          <div class="tag">Fitness</div>
+        </div>
+
+        <!-- HERO CONTENT BANNER -->
+        <div class="hero-banner">
+          <div class="hero-text">
+            <h1>Featured Launch Event</h1>
+            <p>Watch live coverage of automotive updates and community reviews.</p>
+          </div>
+        </div>
+
+        <!-- VIDEO GRID PLATFORM -->
+        <div class="video-grid">
+          
+          <!-- Card 1 -->
